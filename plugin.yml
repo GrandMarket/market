@@ -1,0 +1,6 @@
+name: Market
+version: 0.0.1
+description: Bukkit plugin to create a server-wide marketplace with flexible prices
+author: PenfieldDragon
+website: http://grandmarket.github.com/market
+main: com.github.grandmarket.market.Market
