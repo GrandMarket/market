@@ -7,7 +7,7 @@ main: com.github.grandmarket.market.Market
 
 commands:
   market:
-  	alias: [grandmarket, mall]
+    alias: [grandmarket, mall]
     description: Contains all market commands
     usage: /<command> [sub-commands...]
     permission: market.main
