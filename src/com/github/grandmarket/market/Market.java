@@ -47,8 +47,8 @@ public class Market extends JavaPlugin implements Listener {
 						sender.sendMessage(query.getString("value"));
 					}
 					else {
-						if(sender.isOp()) {
-							sender.sendMessage("The market is a marketplace where people can buy and sell items.");
+						sender.sendMessage("The market is a marketplace where people can buy and sell items.");
+						if(sender.hasPermission("market.setup")) {
 							sender.sendMessage("This message is the default help message.  Change the plugin settings (or go through the setup) to change this message.");
 						}
 					}
