@@ -4,3 +4,21 @@ description: Bukkit plugin to create a server-wide marketplace with flexible pri
 author: PenfieldDragon
 website: http://grandmarket.github.com/market
 main: com.github.grandmarket.market.Market
+
+commands:
+  market:
+  	alias: [grandmarket, mall]
+    description: Contains all market commands
+    usage: /<command> [sub-commands...]
+    permission: market.main
+    permission-message: You can't access the market commands, as you don't have <permssion>
+
+permissions:
+  market.*:
+    description: Gives access to all market commands
+    children:
+      market.main: true
+    default: op
+  market.main:
+    description: Allows you to see the basic market information
+    default: true
