@@ -40,7 +40,7 @@ public class Market extends JavaPlugin implements Listener {
 	}
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
 		if(cmd.getName().equalsIgnoreCase("market")) {
-			if(args[0] == "") {
+			if(args.length < 1) {
 				try {
 					ResultSet query = dbconn.query("SELECT * FROM settings WHERE setting='mainText' LIMIT 1");
 					if(query.first()) {
