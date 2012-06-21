@@ -18,12 +18,12 @@ permissions:
     description: Gives access to all market commands
     children:
       market.main: true
-      market.setup
+      market.setup: true
     default: op
   market.safe:
     description: Gives access to subset of market.*, excluding dangerous commands
     children:
-      market.main
+      market.main: true
     default: true
   market.main:
     description: Allows you to see the basic market information
