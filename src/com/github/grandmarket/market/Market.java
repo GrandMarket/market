@@ -85,6 +85,9 @@ public class Market extends JavaPlugin implements Listener {
 			if(sender.hasPermission("market.sell")) {
 				sender.sendMessage("/"+commandLabel+" sell <ammount> <item> ([now [under price]] or [price])  Sell an item (more info at /" + commandLabel + " sell");
 			}
+			if(sender.hasPermission("market.setup")) {
+				sender.sendMessage("/"+commandLabel+" setup  Offers a series of setup options, mostly default values");
+			}
 		}
 		return false;
 	}
