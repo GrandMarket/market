@@ -88,6 +88,7 @@ public class Market extends JavaPlugin implements Listener {
 			if(sender.hasPermission("market.setup")) {
 				sender.sendMessage("/"+commandLabel+" setup  Offers a series of setup options, mostly default values");
 			}
+			return true;
 		}
 		return false;
 	}
