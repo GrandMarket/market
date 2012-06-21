@@ -43,7 +43,7 @@ public class Market extends JavaPlugin implements Listener {
 			if(args.length < 1) {
 				try {
 					ResultSet query = dbconn.query("SELECT * FROM settings WHERE setting='mainText' LIMIT 1");
-					if(query.first()) {
+					if(query.next()) {
 						sender.sendMessage(query.getString("value"));
 					}
 					else {
