@@ -55,7 +55,9 @@ public class Market extends JavaPlugin implements Listener {
 				}
 				catch (SQLException e) {
 					e.printStackTrace();
+					getLogger().log(Level.SEVERE, "SQLException onCommand market.main");
 				}
+				return true;
 			}
 		}
 		return false;
