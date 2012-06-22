@@ -90,6 +90,15 @@ public class Market extends JavaPlugin implements Listener {
 			}
 			return true;
 		}
+		if(args[0] == "pricecheck") {
+			if(args.length > 1) {
+				String itemName = "";
+				for(int nameArg = 1; nameArg < args.length - 1; nameArg++) {
+					itemName += args[nameArg] + " ";
+				}
+				
+			}
+		}
 		return false;
 	}
 	@EventHandler
