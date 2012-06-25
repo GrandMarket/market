@@ -1,7 +1,19 @@
 package com.github.grandmarket.market;
 
-public class BuyOrder {
+import java.io.Serializable;
+
+import org.bukkit.inventory.ItemStack;
+
+public class BuyOrder extends Order implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	public BuyOrder(ItemStack item, int price) {
+		super(item, price);
+	}
 	
 	
 }
