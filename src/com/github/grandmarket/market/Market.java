@@ -1,5 +1,10 @@
 package com.github.grandmarket.market;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -7,6 +12,8 @@ import java.util.logging.Logger;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerLoginEvent;
@@ -17,8 +24,24 @@ import lib.PatPeter.SQLibrary.*;
 public class Market extends JavaPlugin implements Listener {
 	public SQLite dbconn;
 	public Logger logger;
+	public File blockConfigFile;
+	public FileConfiguration blocks;
 	public void onEnable() {
 		logger = Logger.getLogger("Minecraft");
+		// Get block configuration from the YAML, create if it doesn't exist.
+		blockConfigFile = new File(getDataFolder(), "blocks.yml");
+		if(!blockConfigFile.exists()) {
+			blockConfigFile.getParentFile().mkdirs();
+			copy(getResource("src/github/grandmarket/market/sampleBlocks.yml"), blockConfigFile);
+		}
+		blocks = new YamlConfiguration();
+		try {
+			blocks.load(blockConfigFile);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		// Open the database, create settings table if it doesn't exist
 		dbconn = new SQLite(logger, "", "GrandMarket", "./plugins/GrandMarket/");
 		dbconn.open();
 		if(!dbconn.checkTable("settings")) {
@@ -92,11 +115,16 @@ public class Market extends JavaPlugin implements Listener {
 		}
 		if(args[0] == "pricecheck") {
 			if(args.length > 1) {
-				String itemName = "";
+				// Implement text to id parser later, currently just takes an id
+				/*String itemName = "";
 				for(int nameArg = 1; nameArg < args.length - 1; nameArg++) {
 					itemName += args[nameArg] + " ";
 				}
-				
+				*/
+				String itemId = args[1];
+				if(blocks.contains(itemId)) {
+					sender.sendMessage("Current market price for "+blocks.getString(itemId+".name"));
+				}
 			}
 		}
 		return false;
@@ -104,5 +132,19 @@ public class Market extends JavaPlugin implements Listener {
 	@EventHandler
 	public void onPlayerLogin(PlayerLoginEvent event) {
 		
+	}
+	private void copy(InputStream in, File file) {
+	    try {
+	        OutputStream out = new FileOutputStream(file);
+	        byte[] buf = new byte[1024];
+	        int len;
+	        while((len=in.read(buf))>0){
+	            out.write(buf,0,len);
+	        }
+	        out.close();
+	        in.close();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
 	}
 }
