@@ -21,22 +21,46 @@ import static org.bukkit.ChatColor.*;
 
 import lib.PatPeter.SQLibrary.*;
 
+@SuppressWarnings("unused")
 public class Market extends JavaPlugin implements Listener {
 	public SQLite dbconn;
 	public Logger logger;
 	public File blockConfigFile;
 	public FileConfiguration blocks;
+	public File configFile;
+	public FileConfiguration config;
+	public File configDefaultsFile;
+	public YamlConfiguration configDefaults;
 	public void onEnable() {
 		logger = Logger.getLogger("Minecraft");
 		// Get block configuration from the YAML, create if it doesn't exist.
 		blockConfigFile = new File(getDataFolder(), "blocks.yml");
 		if(!blockConfigFile.exists()) {
 			blockConfigFile.getParentFile().mkdirs();
-			copy(getResource("src/github/grandmarket/market/sampleBlocks.yml"), blockConfigFile);
+			copy(getResource("src/com/github/grandmarket/market/sampleBlocks.yml"), blockConfigFile);
 		}
 		blocks = new YamlConfiguration();
 		try {
 			blocks.load(blockConfigFile);
+			configDefaultsFile = new File("src/com/github/grandmarket/market/configDefaults.yml");
+			if(configDefaultsFile.exists()) {
+				configDefaults = YamlConfiguration.loadConfiguration(configDefaultsFile);
+				blocks.setDefaults(configDefaults);
+			}
+			else {
+				logger.log(Level.SEVERE, "ERROR!  GrandMarket could not find a default config file!");
+			}
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		configFile = new File(getDataFolder(), "config.yml");
+		if(!configFile.exists()) {
+			configFile.getParentFile().mkdirs();
+			copy(getResource("src/github/grandmarket/market/sampleConfig.yml"), configFile);
+		}
+		try {
+			config.load(configFile);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -44,18 +68,6 @@ public class Market extends JavaPlugin implements Listener {
 		// Open the database, create settings table if it doesn't exist
 		dbconn = new SQLite(logger, "", "GrandMarket", "./plugins/GrandMarket/");
 		dbconn.open();
-		if(!dbconn.checkTable("settings")) {
-			logger.log(Level.INFO, "GrandMarket: Creating table \"settings\" in database \""+dbconn.name+"\"");
-			dbconn.createTable("CREATE TABLE settings (id INTEGER NOT NULL PRIMARY KEY, setting TEXT, value BLOB)");
-		}
-		try {
-			if(!dbconn.query("SELECT * FROM settings WHERE setting='setup' LIMIT 1").next()) {
-				getLogger().log(Level.WARNING, "GrandMarket: The setup has not been completed.  We recomend that this be done ASAP.");	
-			}
-		}
-		catch (SQLException e) {
-			e.printStackTrace();
-		}
 		getLogger().info("The market plugin has been enabled.");
 	}
 	public void onDisable() {
@@ -64,22 +76,17 @@ public class Market extends JavaPlugin implements Listener {
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
 		if(cmd.getName().equalsIgnoreCase("market")) {
 			if(args.length < 1) {
-				try {
-					ResultSet query = dbconn.query("SELECT * FROM settings WHERE setting='mainText' LIMIT 1");
-					if(query.next()) {
-						sender.sendMessage(query.getString("value"));
-					}
-					else {
-						sender.sendMessage("The market allows players to buy and sell items.");
-						sender.sendMessage(DARK_AQUA+"/"+commandLabel+" "+DARK_BLUE+"help "+BLACK+"lists avalible commands.");
-						if(sender.hasPermission("market.setup")) {
-							sender.sendMessage("This message is the default help message.  The help message can be changed in config.yml");
-						}
+				if(config.contains("helpCommandText")) {
+					for(String line : config.getString("helpCommandText").split("\\\n")) {
+						sender.sendMessage(line);
 					}
 				}
-				catch (SQLException e) {
-					e.printStackTrace();
-					getLogger().log(Level.SEVERE, "SQLException onCommand market.main");
+				else {
+					sender.sendMessage("The market allows players to buy and sell items.");
+					sender.sendMessage(DARK_AQUA+"/"+commandLabel+" "+DARK_BLUE+"help "+BLACK+"lists avalible commands.");
+					if(sender.hasPermission("market.setup")) {
+						sender.sendMessage("This message is the default help message.  The help message can be changed in config.yml");
+					}
 				}
 				return true;
 			}
