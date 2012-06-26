@@ -17,6 +17,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.plugin.java.JavaPlugin;
+import static org.bukkit.ChatColor.*;
 
 import lib.PatPeter.SQLibrary.*;
 
@@ -70,9 +71,9 @@ public class Market extends JavaPlugin implements Listener {
 					}
 					else {
 						sender.sendMessage("The market allows players to buy and sell items.");
-						sender.sendMessage("&3/"+commandLabel+" &1help &0lists avalible commands.");
+						sender.sendMessage(DARK_AQUA+"/"+commandLabel+" "+DARK_BLUE+"help "+BLACK+"lists avalible commands.");
 						if(sender.hasPermission("market.setup")) {
-							sender.sendMessage("This message is the default help message.  Change the plugin settings (or go through the setup) to change this message.");
+							sender.sendMessage("This message is the default help message.  The help message can be changed in config.yml");
 						}
 					}
 				}
@@ -86,29 +87,29 @@ public class Market extends JavaPlugin implements Listener {
 		if(args[0] == "help") {
 			sender.sendMessage("/"+commandLabel+" [commands...]");
 			if(sender.hasPermission("market.main")) {
-				sender.sendMessage("&3/"+commandLabel+"  &0Display basic information");
+				sender.sendMessage(DARK_AQUA+"/"+commandLabel+"  "+BLACK+"Display basic information");
 			}
 			if(sender.hasPermission("market.help")) {
-				sender.sendMessage("&3/"+commandLabel+" &1help  &0Display this information");
+				sender.sendMessage(DARK_AQUA+"/"+commandLabel+" "+DARK_BLUE+"help  "+BLACK+"Display this information");
 			}
 			if(sender.hasPermission("market.updates")) {
-				sender.sendMessage("&3/"+commandLabel+" &1updates &0Gives personalized updates on the market.");
-				sender.sendMessage("&3/"+commandLabel+" &1updates clear  &0Removes personalized update messages.");
+				sender.sendMessage(DARK_AQUA+"/"+commandLabel+" "+DARK_BLUE+"updates "+BLACK+"Gives personalized updates on the market.");
+				sender.sendMessage(DARK_AQUA+"/"+commandLabel+" "+DARK_BLUE+"updates clear  "+BLACK+"Removes personalized update messages.");
 			}
 			if(sender.hasPermission("market.mystuff")) {
-				sender.sendMessage("&3/"+commandLabel+" &1mystuff &0Displays information about your items on the market.");
+				sender.sendMessage(DARK_AQUA+"/"+commandLabel+" "+DARK_BLUE+"mystuff "+BLACK+"Displays information about your items on the market.");
 			}
 			if(sender.hasPermission("market.pricecheck")) {
-				sender.sendMessage("&3/"+commandLabel+" &1pricecheck &9<item name>  &0Checks the price of an item.");
+				sender.sendMessage(DARK_AQUA+"/"+commandLabel+" "+DARK_BLUE+"pricecheck "+LIGHT_PURPLE+"<item name>  "+BLACK+"Checks the price of an item.");
 			}
 			if(sender.hasPermission("market.buy")) {
-				sender.sendMessage("&3/"+commandLabel+" &1buy &9<ammount> <item> &0(&2[now [under price]] &0or &2[price]&0) Purchase an item (more information at &3/" + commandLabel + " &1buy&0)");
+				sender.sendMessage(DARK_AQUA+"/"+commandLabel+" "+DARK_BLUE+"buy "+LIGHT_PURPLE+"<ammount> <item> "+BLACK+"("+DARK_GREEN+"[now [under price]] "+BLACK+"or "+DARK_GREEN+"[price]"+BLACK+") Purchase an item (more information at "+DARK_AQUA+"/" + commandLabel + " "+DARK_BLUE+"buy"+BLACK+")");
 			}
 			if(sender.hasPermission("market.sell")) {
-				sender.sendMessage("&3/"+commandLabel+" &1sell &9<ammount> <item> &0(&2[now [under price]] &0or &2[price]&0)  Sell an item (more info at &3/" + commandLabel + " &1sell&0)");
+				sender.sendMessage(DARK_AQUA+"/"+commandLabel+" "+DARK_BLUE+"sell "+LIGHT_PURPLE+"<ammount> <item> "+BLACK+"("+DARK_GREEN+"[now [under price]] "+BLACK+"or "+DARK_GREEN+"[price]"+BLACK+")  Sell an item (more info at "+DARK_AQUA+"/" + commandLabel + " "+DARK_BLUE+"sell"+BLACK+")");
 			}
 			if(sender.hasPermission("market.setup")) {
-				sender.sendMessage("&3/"+commandLabel+" &1setup  &0Offers a series of setup options, mostly default values");
+				sender.sendMessage(DARK_AQUA+"/"+commandLabel+" "+DARK_BLUE+"setup  "+BLACK+"Offers a series of setup options, mostly default values");
 			}
 			return true;
 		}
@@ -122,7 +123,7 @@ public class Market extends JavaPlugin implements Listener {
 				*/
 				String itemId = args[1];
 				if(blocks.contains(itemId)) {
-					sender.sendMessage("Current market price for "+blocks.getString(itemId+".name"));
+					sender.sendMessage("Current market price for "+DARK_RED+blocks.getString(itemId+".name"));
 				}
 			}
 		}
