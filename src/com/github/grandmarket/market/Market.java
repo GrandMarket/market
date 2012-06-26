@@ -54,6 +54,7 @@ public class Market extends JavaPlugin implements Listener {
 		catch (Exception e) {
 			e.printStackTrace();
 		}
+		config = new YamlConfiguration();
 		configFile = new File(getDataFolder(), "config.yml");
 		if(!configFile.exists()) {
 			configFile.getParentFile().mkdirs();
